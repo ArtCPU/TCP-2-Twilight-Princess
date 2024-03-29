@@ -43,7 +43,6 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Debug.Log(IsGrounded());
         IsGrounded();
         UpdateMoveDirection();
         controller.Move(moveDirection + gravityVector + jumpVector);
