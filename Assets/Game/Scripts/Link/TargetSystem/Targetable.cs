@@ -45,7 +45,7 @@ public class Targetable : MonoBehaviour
 
             UpdateMarkPosition(targetableMark, targetableMarkOffset, "y");
 
-            Debug.Log("I´m TARGETABLE");
+            //Debug.Log("I´m TARGETABLE");
             renderer.material.color = Color.green;
         }
     }
@@ -62,7 +62,7 @@ public class Targetable : MonoBehaviour
 
             UpdateMarkPosition(targetMark, targetMarkOffset, "z");
 
-            Debug.Log("I´m TARGETED");
+            //Debug.Log("I´m TARGETED");
 
             renderer.sharedMaterial.color = Color.blue;
         }
@@ -87,7 +87,7 @@ public class Targetable : MonoBehaviour
     {
         if (target == this)
         {
-            Debug.Log("i´m DETARGETED");
+            //Debug.Log("i´m DETARGETED");
             Destroy(target.targetMark);
         }
     }
@@ -96,7 +96,7 @@ public class Targetable : MonoBehaviour
     {
         if (target == this)
         {
-            Debug.Log("I´m OUT OF RANGE");
+            //Debug.Log("I´m OUT OF RANGE");
             Destroy(target.targetableMark);
             Destroy(target.targetMark);
 
