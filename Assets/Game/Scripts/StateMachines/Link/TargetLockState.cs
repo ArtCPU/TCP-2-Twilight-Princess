@@ -3,7 +3,7 @@ namespace Game.State
 {
     public class TargetLockState : BaseState
     {
-        public TargetLockState(StateMachine currentStateMachine) : base(currentStateMachine)
+        public TargetLockState(StateMachine currentStateMachine, GameObject currentCharacter) : base(currentStateMachine, currentCharacter)
         {
         }
        

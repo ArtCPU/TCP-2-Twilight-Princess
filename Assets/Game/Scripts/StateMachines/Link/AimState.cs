@@ -1,8 +1,10 @@
+using UnityEngine;
+
 namespace Game.State
 {
     public class AimState : BaseState
     {
-        public AimState(StateMachine currentStateMachine) : base(currentStateMachine)
+        public AimState(StateMachine currentStateMachine, GameObject currentCharacter) : base(currentStateMachine, currentCharacter)
         {
         }
 

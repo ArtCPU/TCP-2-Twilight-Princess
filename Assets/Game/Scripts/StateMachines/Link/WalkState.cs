@@ -1,8 +1,10 @@
+using UnityEngine;
+
 namespace Game.State
 {
     public class WalkState : BaseState
     {
-        public WalkState(StateMachine currentStateMachine) : base(currentStateMachine)
+        public WalkState(StateMachine currentStateMachine, GameObject currentCharacter) : base(currentStateMachine, currentCharacter)
         {
         }
 

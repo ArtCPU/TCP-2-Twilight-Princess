@@ -1,29 +1,35 @@
+using UnityEngine;
+
 namespace Game.State
 {
     public class DeathState : BaseState
     {
-        public DeathState(StateMachine currentStateMachine) : base(currentStateMachine)
+        private PlayerMovement playerMovement;
+        private Life life;
+        public DeathState(StateMachine currentStateMachine, GameObject currentCharacter) : base(currentStateMachine, currentCharacter)
         {
+            playerMovement = character.GetComponent<PlayerMovement>();
+            life = character.GetComponent<Life>(); 
         }
 
         public override void Enter()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("You Died!");
         }
 
         public override void Exit()
         {
-            throw new System.NotImplementedException();
+            life.IncreaseLife(10);
         }
 
         public override void FixedUpdate()
         {
-            throw new System.NotImplementedException();
+            playerMovement.SetState(playerMovement.stateMachine.StateFactory.Idle);
         }
 
         public override void Update()
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

@@ -1,30 +1,48 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+
 namespace Game.State
 {
     public class RunState : BaseState
     {
-        public RunState(StateMachine currentStateMachine) : base(currentStateMachine)
+        PlayerMovement playerMovement;
+        public RunState(StateMachine currentStateMachine, GameObject currentCharacter) : base(currentStateMachine, currentCharacter)
         {
         }
-
+        
+        
         public override void Enter()
         {
-            Debug.Log("Entered the RUN state");
+            playerMovement = character.GetComponent<PlayerMovement>();
+            //Debug.Log("Entered the RUN state");
         }
 
         public override void Exit()
         {
-            Debug.Log("Exited the RUN state");
+            //Debug.Log("Exited the RUN state");
         }
 
         public override void FixedUpdate()
         {
-            Debug.Log("RUN Fixed Update...");
+            playerMovement.UpdateMoveDirection();
+            if (playerMovement.IsIdle())
+            {
+                playerMovement.SetState(playerMovement.stateMachine.StateFactory.Idle);
+            }
+
+            if (!playerMovement.IsGrounded())
+            {
+                playerMovement.SetState(playerMovement.stateMachine.StateFactory.Jump);
+            }
+            playerMovement.Move();
         }
 
         public override void Update()
-        {
-            Debug.Log("RUN Update...");
+        {            
+            
         }
+
+
+            
     }
 }

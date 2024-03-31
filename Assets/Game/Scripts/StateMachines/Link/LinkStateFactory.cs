@@ -1,8 +1,11 @@
+using UnityEngine;
+
 namespace Game.State
 {
     public class LinkStateFactory
     {
         private StateMachine stateMachine;
+        private GameObject character;
 
         public readonly BaseState Idle;
         public readonly BaseState Walk;
@@ -15,19 +18,20 @@ namespace Game.State
         public readonly BaseState Aim;
         public readonly BaseState Death;
 
-        public LinkStateFactory(StateMachine currentStateMachine)
+        public LinkStateFactory(StateMachine currentStateMachine, GameObject currentCharacter)
         {
             stateMachine = currentStateMachine;
-            Idle = new IdleState(stateMachine);
-            Walk = new WalkState(stateMachine);
-            Run = new RunState(stateMachine);
-            Jump = new JumpState(stateMachine);
-            Attack = new AttackState(stateMachine);
-            Defend = new DefendState(stateMachine);
-            TargetLock = new TargetLockState(stateMachine);
-            Hurt = new HurtState(stateMachine);
-            Aim = new AimState(stateMachine);
-            Death = new DeathState(stateMachine);
+            character = currentCharacter;
+            Idle = new IdleState(stateMachine, character);
+            Walk = new WalkState(stateMachine, character);
+            Run = new RunState(stateMachine, character);
+            Jump = new JumpState(stateMachine, character);
+            Attack = new AttackState(stateMachine, character);
+            Defend = new DefendState(stateMachine, character);
+            TargetLock = new TargetLockState(stateMachine, character);
+            Hurt = new HurtState(stateMachine, character);
+            Aim = new AimState(stateMachine, character);
+            Death = new DeathState(stateMachine, character);
         }
     }
 }

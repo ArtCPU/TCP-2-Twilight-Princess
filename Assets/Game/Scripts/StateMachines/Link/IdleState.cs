@@ -3,12 +3,15 @@ namespace Game.State
 {
     public class IdleState : BaseState
     {
-        public IdleState(StateMachine currentStateMachine) : base(currentStateMachine)
+        PlayerMovement playerMovement;
+        public IdleState(StateMachine currentStateMachine, GameObject currentCharacter) : base(currentStateMachine, currentCharacter)
         {
+            playerMovement = character.GetComponent<PlayerMovement>();
         }
 
         public override void Enter()
         {
+            playerMovement.UpdateMoveDirection();
             Debug.Log("Entered the IDLE state");
         }
 
@@ -19,12 +22,27 @@ namespace Game.State
 
         public override void FixedUpdate()
         {
-            Debug.Log("IDLE Fixed Update...");
-        }
+            if (playerMovement.IsIdle())
+            {
+                playerMovement.UpdateMoveDirection();
+            }
 
+            if (!playerMovement.IsIdle())
+            {
+                playerMovement.SetState(playerMovement.stateMachine.StateFactory.Run);
+            }
+
+            if (!playerMovement.IsGrounded())
+            {
+                playerMovement.SetState(playerMovement.stateMachine.StateFactory.Jump);
+            }
+
+            playerMovement.Move();
+           
+        }
         public override void Update()
         {
-            Debug.Log("IDLE Update...");
+
         }
     }
 }

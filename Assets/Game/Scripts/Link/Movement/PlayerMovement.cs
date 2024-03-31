@@ -6,8 +6,8 @@ namespace Game.State
     [RequireComponent(typeof(CharacterController))]
     public class PlayerMovement : MonoBehaviour
     {
+        public LinkStateMachine stateMachine;
         private CharacterController controller;
-        private LinkStateMachine stateMachine;
         private Transform cam;
 
         // Gravity Variables
@@ -27,7 +27,6 @@ namespace Game.State
 
         [Header("Ground Layer")]
         [SerializeField] private LayerMask groundLayer;
-        private bool isGrounded;
 
         // Jump Variables
         [Header("Jump Settings")]
@@ -35,37 +34,30 @@ namespace Game.State
         [SerializeField] private float maxJumpHeight = 1.0f;
         [SerializeField] private float maxJumpTime = 0.5f;
         private Vector3 jumpVector = Vector3.zero;
-        private bool isJumping = false;
 
         void Awake()
         {
             controller = GetComponent<CharacterController>();
             cam = Camera.main.transform;
-            SetJumpVariables();
             stateMachine = GetComponent<LinkStateMachine>();
         }
-        private void FixedUpdate()
-        {
-            IsGrounded();
-            UpdateMoveDirection();
-            controller.Move(moveDirection + gravityVector + jumpVector);
-            AplyGravity();
-            TryJump();
-        }
 
-        private void SetJumpVariables()
+        public void Move()
+        {
+            controller.Move(moveDirection + gravityVector + jumpVector);
+        }
+        public void SetJumpVariables()
         {
             float timeToApex = maxJumpTime / 2;
             gravity = (-2 * maxJumpHeight) / Mathf.Pow(timeToApex, 2);
-            initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
+            initialJumpVelocity = (maxJumpHeight) / timeToApex;
         }
 
-        private bool IsGrounded()
+        public bool IsGrounded()
         {
-            isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
-            return isGrounded;
+            return Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
         }
-        private void UpdateMoveDirection()
+        public void UpdateMoveDirection()
         {
             xAxis = Input.GetAxisRaw("Horizontal");
             zAxis = Input.GetAxisRaw("Vertical");
@@ -79,46 +71,44 @@ namespace Game.State
                 transform.rotation = Quaternion.Euler(0f, newAngle, 0f);
 
                 moveDirection = (Quaternion.Euler(0f, newAngle, 0f) * Vector3.forward).normalized * movementSpeed * Time.fixedDeltaTime;
-                SetState(stateMachine.StateFactory.Run);
             }
 
             else
             {
                 moveDirection = Vector3.zero;
-                SetState(stateMachine.StateFactory.Idle);
             }
         }
 
-        private void TryJump()
+        public bool IsIdle()
         {
-            if (!isJumping && !isGrounded)
-            {
-                SetState(stateMachine.StateFactory.Jump);
-                isJumping = true;
-                jumpVector.y = initialJumpVelocity * 0.5f;
-            }
-            else if (isJumping && isGrounded)
-            {
-                jumpVector = Vector3.zero;
-                isJumping = false;
-            }
-        }
-        private void AplyGravity()
-        {
-            if (isGrounded && gravityVector.y < 0)
-            {
-                gravityVector.y = -0.5f;
-            }
-            else
-            {
-                float previousYVelocity = gravityVector.y;
-                float newYVelocity = gravityVector.y + (gravity * Time.fixedDeltaTime);
-                float nextYVelocity = (previousYVelocity + newYVelocity) * 0.5f;
-                gravityVector.y = nextYVelocity;
-            }
+            return direction.magnitude <= 0;
         }
 
-        private void SetState(BaseState state)
+        public void Jump()
+        {
+            jumpVector.y = initialJumpVelocity * 0.5f;
+        }
+
+        public void ResetJumpVector()
+        {
+            jumpVector = Vector3.zero;
+        }
+
+        public void AplyGravity()
+        {
+            float previousYVelocity = gravityVector.y;
+            float newYVelocity = gravityVector.y + (gravity * Time.fixedDeltaTime);
+            float nextYVelocity = (previousYVelocity + newYVelocity) * 0.5f;
+            gravityVector.y = nextYVelocity;
+        }
+
+        public void ResetGravityVector()
+        {
+            gravityVector = Vector3.zero;
+            //gravity = -9.81f;
+        }
+
+        public void SetState(BaseState state)
         {
             if (stateMachine.CurrentState != state)
             {

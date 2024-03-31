@@ -1,8 +1,10 @@
+using UnityEngine;
+
 namespace Game.State
 {
     public class DefendState : BaseState
     {
-        public DefendState(StateMachine currentStateMachine) : base(currentStateMachine)
+        public DefendState(StateMachine currentStateMachine, GameObject currentCharacter) : base(currentStateMachine, currentCharacter)
         {
         }
 

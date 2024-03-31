@@ -1,3 +1,5 @@
+using Unity.VisualScripting;
+
 namespace Game.State
 {
     public class LinkStateMachine : StateMachine
@@ -6,7 +8,7 @@ namespace Game.State
 
         private void Awake()
         {
-            StateFactory = new LinkStateFactory(this);
+            StateFactory = new LinkStateFactory(this, this.gameObject);
             CurrentState = StateFactory.Idle;
         }
     }
