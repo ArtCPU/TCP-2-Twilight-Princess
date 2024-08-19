@@ -1,7 +1,6 @@
 using UnityEngine;
 namespace Game.State
 {
-    [RequireComponent (typeof (Damageable))]
     public class Life : MonoBehaviour
     {
         [SerializeField] int maxLife;

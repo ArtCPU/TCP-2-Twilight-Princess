@@ -1,22 +1,18 @@
+using Game.Controller;
 using UnityEngine;
 
 namespace Game.State
 {
-    public class HurtState : BaseState
+    public class HurtState : LinkBaseState
     {
-        private Damageable damageable;
-        private Life life;
-        private PlayerMovement playerMovement;
-        public HurtState(StateMachine currentStateMachine, GameObject currentCharacter) : base(currentStateMachine, currentCharacter)
+        public HurtState(LinkStateMachine currentStateMachine, LinkController linkController) : base(currentStateMachine, linkController)
         {
-            damageable = character.GetComponent<Damageable>();
-            life = character.GetComponent<Life>();
-            playerMovement = character.GetComponent<PlayerMovement>();
         }
 
         public override void Enter()
         {
-            GameEvents.Instance.Damage(damageable.DamageAmount);
+            linkController.AnimationController.PlayHurt();
+            linkController.PhysicsProcessor.StopMovement();
         }
 
         public override void Exit()
@@ -26,16 +22,13 @@ namespace Game.State
 
         public override void FixedUpdate()
         {
-            if (life.Death())
-            {
-                playerMovement.SetState(playerMovement.stateMachine.StateFactory.Death);
-            }
-
-            else playerMovement.SetState(playerMovement.stateMachine.PreviousState);
         }
         public override void Update()
         {
-            
+            if (linkController.AnimationController.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+            {
+                stateMachine.SetState(stateMachine.PreviousState);
+            }
         }
     }
 }

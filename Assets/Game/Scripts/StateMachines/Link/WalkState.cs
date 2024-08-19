@@ -1,31 +1,39 @@
+using Game.Controller;
 using UnityEngine;
 
 namespace Game.State
 {
-    public class WalkState : BaseState
+    public class WalkState : LinkBaseState
     {
-        public WalkState(StateMachine currentStateMachine, GameObject currentCharacter) : base(currentStateMachine, currentCharacter)
+        public WalkState(LinkStateMachine currentStateMachine, LinkController linkController) : base(currentStateMachine, linkController)
         {
         }
 
         public override void Enter()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Entered the WALK state");
+            stateMachine.LinkController.AnimationController.PlayWalk();
         }
 
         public override void Exit()
         {
-            throw new System.NotImplementedException();
         }
 
         public override void FixedUpdate()
         {
-            throw new System.NotImplementedException();
+            //linkController.UpdateMoveDirection(stateMachine.LinkInputController.MoveDirection.normalized);
+            linkController.LinkActions.PerformWalk();
         }
 
         public override void Update()
         {
-            throw new System.NotImplementedException();
+            stateMachine.TryPerformJump();
+            stateMachine.TryPerformRun();
+            stateMachine.TryPerformIdle();
+            stateMachine.TryPerformCombat();
+            //stateMachine.TryPerformGuard();
+            stateMachine.TryPerformDeath();
+            stateMachine.TryPerformAim();
         }
     }
 }

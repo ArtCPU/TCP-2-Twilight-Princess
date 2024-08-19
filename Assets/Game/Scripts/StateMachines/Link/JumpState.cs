@@ -1,52 +1,37 @@
+using Game.Controller;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
+
 namespace Game.State
 {
-    public class JumpState : BaseState
+    public class JumpState : LinkBaseState
     {
-        PlayerMovement playerMovement;
-        public JumpState(StateMachine currentStateMachine, GameObject currentCharacter) : base(currentStateMachine, currentCharacter)
+        public JumpState(LinkStateMachine currentStateMachine, LinkController linkController) : base(currentStateMachine, linkController)
         {
         }
 
         public override void Enter()
         {
-            playerMovement = character.GetComponent<PlayerMovement>();
-            playerMovement.SetJumpVariables();
-            playerMovement.Jump();
-            Debug.Log("Entered the JUMP state");
+            //Debug.Log("Entered the JUMP state");
+            stateMachine.LinkController.AnimationController.PlayJump();
+            linkController.LinkActions.PerformJump();
         }
 
         public override void Exit()
         {
-            playerMovement.ResetGravityVector();
-            playerMovement.ResetJumpVector();
-            Debug.Log(" Exited the JUMP state");
+
         }
 
         public override void FixedUpdate()
         {
-            if (playerMovement.IsGrounded() && !playerMovement.IsIdle())
-            {
-                playerMovement.SetState(playerMovement.stateMachine.StateFactory.Run);
-            }
-
-            if (playerMovement.IsGrounded() && playerMovement.IsIdle())
-            {
-                playerMovement.SetState(playerMovement.stateMachine.StateFactory.Idle);
-            }
-
-            if (!playerMovement.IsGrounded())
-            {
-                playerMovement.AplyGravity();
-            }
-
-            playerMovement.Move();
-
+            //linkController.PhysicsProcessor.SetMovementDirection(linkController.InputController.MovementDirection * linkController.MovementData.WalkingSpeed * Time.fixedDeltaTime);
         }
 
         public override void Update()
         {
-            
+            stateMachine.TryPerformIdle();
+            stateMachine.TryPerformWalk();
+            stateMachine.TryPerformRun();
         }
     }
 }

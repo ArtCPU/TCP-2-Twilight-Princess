@@ -1,45 +1,42 @@
+using Game.Controller;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Game.State
 {
-    public class RunState : BaseState
+    public class RunState : LinkBaseState
     {
-        PlayerMovement playerMovement;
-        public RunState(StateMachine currentStateMachine, GameObject currentCharacter) : base(currentStateMachine, currentCharacter)
+        public RunState(LinkStateMachine currentStateMachine, LinkController linkController) : base(currentStateMachine, linkController)
         {
+
         }
-        
-        
+
         public override void Enter()
         {
-            playerMovement = character.GetComponent<PlayerMovement>();
             //Debug.Log("Entered the RUN state");
+            stateMachine.LinkController.AnimationController.PlayRun();
         }
 
         public override void Exit()
         {
-            //Debug.Log("Exited the RUN state");
+
         }
 
         public override void FixedUpdate()
         {
-            playerMovement.UpdateMoveDirection();
-            if (playerMovement.IsIdle())
-            {
-                playerMovement.SetState(playerMovement.stateMachine.StateFactory.Idle);
-            }
-
-            if (!playerMovement.IsGrounded())
-            {
-                playerMovement.SetState(playerMovement.stateMachine.StateFactory.Jump);
-            }
-            playerMovement.Move();
+            //linkController.UpdateMoveDirection(stateMachine.LinkInputController.MoveDirection.normalized);
+            linkController.LinkActions.PerformRun();
         }
 
         public override void Update()
-        {            
-            
+        {
+            stateMachine.TryPerformJump();
+            stateMachine.TryPerformWalk();
+            stateMachine.TryPerformIdle();
+            stateMachine.TryPerformCombat();
+            //stateMachine.TryPerformGuard();
+            stateMachine.TryPerformDeath();
+            stateMachine.TryPerformAim();
         }
 
 

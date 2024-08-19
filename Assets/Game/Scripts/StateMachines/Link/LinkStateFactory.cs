@@ -1,37 +1,36 @@
-using UnityEngine;
-
 namespace Game.State
 {
+    using Game.Controller;
     public class LinkStateFactory
     {
-        private StateMachine stateMachine;
-        private GameObject character;
+        private LinkController linkController;
+        private LinkStateMachine linkStateMachine;
 
         public readonly BaseState Idle;
         public readonly BaseState Walk;
         public readonly BaseState Run;
         public readonly BaseState Jump;
-        public readonly BaseState Attack;
-        public readonly BaseState Defend;
+        public readonly BaseState CombatState;
+        public readonly BaseState Guard;
         public readonly BaseState TargetLock;
         public readonly BaseState Hurt;
         public readonly BaseState Aim;
         public readonly BaseState Death;
 
-        public LinkStateFactory(StateMachine currentStateMachine, GameObject currentCharacter)
+        public LinkStateFactory(LinkController linkController, LinkStateMachine linkStateMachine )
         {
-            stateMachine = currentStateMachine;
-            character = currentCharacter;
-            Idle = new IdleState(stateMachine, character);
-            Walk = new WalkState(stateMachine, character);
-            Run = new RunState(stateMachine, character);
-            Jump = new JumpState(stateMachine, character);
-            Attack = new AttackState(stateMachine, character);
-            Defend = new DefendState(stateMachine, character);
-            TargetLock = new TargetLockState(stateMachine, character);
-            Hurt = new HurtState(stateMachine, character);
-            Aim = new AimState(stateMachine, character);
-            Death = new DeathState(stateMachine, character);
+            this.linkController = linkController;
+            this.linkStateMachine = linkStateMachine;
+            Idle = new IdleState(this.linkStateMachine, this.linkController);
+            Jump = new JumpState(this.linkStateMachine, this.linkController);
+            Walk = new WalkState(this.linkStateMachine, this.linkController);
+            Run = new RunState(this.linkStateMachine, this.linkController);
+            CombatState = new CombatState(this.linkStateMachine, this.linkController);
+            Guard = new GuardState(this.linkStateMachine, this.linkController);
+            TargetLock = new TargetLockState(this.linkStateMachine, this.linkController);
+            Hurt = new HurtState(this.linkStateMachine, this.linkController);
+            Aim = new AimState(this.linkStateMachine, this.linkController);
+            Death = new DeathState(this.linkStateMachine, this.linkController);
         }
     }
 }

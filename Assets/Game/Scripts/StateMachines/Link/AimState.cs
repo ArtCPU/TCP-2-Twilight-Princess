@@ -1,10 +1,11 @@
+using Game.Controller;
 using UnityEngine;
 
 namespace Game.State
 {
-    public class AimState : BaseState
+    public class AimState : LinkBaseState
     {
-        public AimState(StateMachine currentStateMachine, GameObject currentCharacter) : base(currentStateMachine, currentCharacter)
+        public AimState(LinkStateMachine currentStateMachine, LinkController linkController) : base(currentStateMachine, linkController)
         {
         }
 

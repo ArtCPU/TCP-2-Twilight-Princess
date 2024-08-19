@@ -1,48 +1,39 @@
+using Game.Controller;
 using UnityEngine;
 namespace Game.State
 {
-    public class IdleState : BaseState
+    public class IdleState : LinkBaseState
     {
-        PlayerMovement playerMovement;
-        public IdleState(StateMachine currentStateMachine, GameObject currentCharacter) : base(currentStateMachine, currentCharacter)
+        public IdleState(LinkStateMachine currentStateMachine, LinkController linkController) : base(currentStateMachine, linkController)
+        
         {
-            playerMovement = character.GetComponent<PlayerMovement>();
+
         }
 
         public override void Enter()
         {
-            playerMovement.UpdateMoveDirection();
-            Debug.Log("Entered the IDLE state");
+            stateMachine.LinkController.AnimationController.PlayIdle();
         }
 
         public override void Exit()
         {
-            Debug.Log("Exited the IDLE state");
+
         }
 
         public override void FixedUpdate()
         {
-            if (playerMovement.IsIdle())
-            {
-                playerMovement.UpdateMoveDirection();
-            }
-
-            if (!playerMovement.IsIdle())
-            {
-                playerMovement.SetState(playerMovement.stateMachine.StateFactory.Run);
-            }
-
-            if (!playerMovement.IsGrounded())
-            {
-                playerMovement.SetState(playerMovement.stateMachine.StateFactory.Jump);
-            }
-
-            playerMovement.Move();
-           
+            linkController.LinkActions.PerformIdle();
         }
         public override void Update()
         {
-
+            stateMachine.TryPerformWalk();
+            stateMachine.TryPerformRun();
+            stateMachine.TryPerformJump();
+            stateMachine.TryPerformCombat();
+            //stateMachine.TryPerformGuard();
+            stateMachine.TryPerformAim();
+            stateMachine.TryPerformTargetLock();
+            stateMachine.TryPerformDeath();
         }
     }
 }

@@ -2,72 +2,90 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using Game.States.Enemy;
-using Unity.VisualScripting;
 using Game.State;
-
-[RequireComponent(typeof(EnemyStateMachine))]
-public class EnemyController : MonoBehaviour
+namespace Game.Controller
 {
-    public EnemyStateMachine stateMachine;
-    private GameObject target;
-    private NavMeshAgent agent;
-    [SerializeField] private LayerMask targetLayer;
+    public class EnemyController : MonoBehaviour, ICharacterController
+    {
+        public GameObject Target { get; private set; }
+        public EnemyAnimationController AnimationContrller { get; private set; }
+        public HitController HitController { get; private set; }
+        [field: SerializeField] public EnemyMovementData MovementData { get; private set; }
+        [field: SerializeField] public EnemyCombatData CombatData { get; private set; }
 
-    [Header("Control Variables")]
-    [SerializeField] private float sightRange, attackRange, attackCooldown;
+        [SerializeField] private LayerMask targetLayer;
 
-    private void Start()
-    {
-        target = PlayerManager.Instance.Player;
-        agent = GetComponent<NavMeshAgent>();
-        stateMachine = GetComponent<EnemyStateMachine>();
-    }
-    
-    public bool IsInSightRange()
-    {
-        return Physics.CheckSphere(transform.position, sightRange, targetLayer);
-    }
+        private NavMeshAgent agent;
+        private Coroutine coroutine;
+        private float currentSightRange;
 
-    public bool IsInAttackRange()
-    {
-        return Physics.CheckSphere(transform.position, attackRange, targetLayer);
-    }
-    public void ChaseTarget()
-    {
-        agent.SetDestination(target.transform.position);
-    }
+        private void Awake()
+        {
+            CombatData = Instantiate(CombatData);
+            CombatData.Initialize();
+            HitController = new HitController(CombatData);
+        }
+        private void Start()
+        {
+            Target = PlayerManager.Instance.Player;
+            agent = GetComponent<NavMeshAgent>();
+            AnimationContrller = GetComponent<EnemyAnimationController>();
+            agent.speed = MovementData.MovementSpeed;
+            currentSightRange = MovementData.SightRange;
+        }
 
-    public void Attack()
-    {
-        Debug.Log("The Enemy Attacked You!");
-    }
+        public bool IsInSightRange()
+        {
+            return Physics.CheckSphere(transform.position, currentSightRange, targetLayer);
+        }
 
-    public void AttackCooldown()
-    {
-        StartCoroutine(Cooldown());
-    }
-    private IEnumerator Cooldown()
-    {
-        yield return new WaitForSeconds(attackCooldown);
-    }
+        public bool IsInAttackRange()
+        {
+            return Physics.CheckSphere(transform.position, CombatData.AttackRange, targetLayer);
+        }
+        public void PerformChase()
+        {
+            agent.SetDestination(Target.transform.position);
+        }
 
-    public void SetState(BaseState state)
-    {
-        stateMachine.SetState(state);
-    }
+        public void PerformAttack()
+        {
+            coroutine = StartCoroutine(Attack());
+        }
 
-    public void Stop()
-    {
-        agent.SetDestination(transform.position);
-    }
+        public void CancelAttack()
+        {
+            if (coroutine != null)
+            {
+                StopCoroutine(coroutine);
+            }
+        }
+        private IEnumerator Attack()
+        {
+            Stop();
+            yield return new WaitForSeconds(CombatData.AttackCooldown);
+            StartCoroutine(Attack());
+        }
+        public void Stop()
+        {
+            agent.SetDestination(transform.position);
+        }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, sightRange);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-    }
+        public void SetSightRange(float range)
+        {
+            currentSightRange = range;
+        }
 
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, MovementData.SightRange);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, CombatData.AttackRange);
+        }
+
+
+    }
 
 }
+

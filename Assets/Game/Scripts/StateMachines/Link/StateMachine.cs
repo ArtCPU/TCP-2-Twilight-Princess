@@ -6,19 +6,19 @@ namespace Game.State
     {
         public BaseState CurrentState { get; protected set; }
         public BaseState PreviousState { get; protected set; }
-        private void Update()
+        public void Update()
         {
             CurrentState.Update();
         }
 
-        private void FixedUpdate()
+        public void FixedUpdate()
         {
             CurrentState.FixedUpdate();
         }
 
         public void SetState(BaseState state)
         {
-            PreviousState = CurrentState;
+            if (state != CurrentState) PreviousState = CurrentState;
             CurrentState.Exit();
             CurrentState = state;
             CurrentState.Enter();

@@ -1,30 +1,27 @@
+using Game.Controller;
 using UnityEngine;
 
 namespace Game.State
 {
-    public class DeathState : BaseState
+    public class DeathState : LinkBaseState
     {
-        private PlayerMovement playerMovement;
-        private Life life;
-        public DeathState(StateMachine currentStateMachine, GameObject currentCharacter) : base(currentStateMachine, currentCharacter)
+        public DeathState(LinkStateMachine currentStateMachine, LinkController linkController) : base(currentStateMachine, linkController)
         {
-            playerMovement = character.GetComponent<PlayerMovement>();
-            life = character.GetComponent<Life>(); 
         }
 
         public override void Enter()
         {
             Debug.Log("You Died!");
+            stateMachine.LinkController.AnimationController.PlayDeath();
         }
 
         public override void Exit()
         {
-            life.IncreaseLife(10);
         }
 
         public override void FixedUpdate()
         {
-            playerMovement.SetState(playerMovement.stateMachine.StateFactory.Idle);
+            //playerMovement.SetState(playerMovement.stateMachine.StateFactory.Idle);
         }
 
         public override void Update()

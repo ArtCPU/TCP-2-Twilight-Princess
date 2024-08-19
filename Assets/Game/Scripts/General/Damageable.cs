@@ -1,7 +1,7 @@
 using Game.State;
 using UnityEngine;
 
-namespace Game
+namespace Game.DamageSystem
 {
     [RequireComponent(typeof(Life))]
     public class Damageable : MonoBehaviour
@@ -23,13 +23,13 @@ namespace Game
         //    stateMachine.SetState(stateMachine.StateFactory.Hurt);
         //}
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                DamageAmount = 1;
-                stateMachine.SetState(stateMachine.StateFactory.Hurt);
-            }
-        }
+        //private void Update()
+        //{
+        //    if (Input.GetKeyDown(KeyCode.T))
+        //    {
+        //        DamageAmount = 1;
+        //        stateMachine.SetState(stateMachine.StateFactory.Hurt);
+        //    }
+        //}
     }
 }
