@@ -11,6 +11,7 @@ public class Attack1State : CombatSubState
     public override void Enter()
     {
         Debug.Log("Atk 1");
+        linkController.PhysicsProcessor.StopMovement();
         linkController.AnimationController.PlayAttack1();
         base.Enter();
     }

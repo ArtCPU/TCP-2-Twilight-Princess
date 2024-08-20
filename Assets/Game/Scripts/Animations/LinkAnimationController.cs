@@ -8,17 +8,17 @@ public class LinkAnimationController : MonoBehaviour
 
     public void PlayIdle()
     {
-        Animator.Play(LinkAnimationHashs.Idle);
+        Animator.CrossFade(LinkAnimationHashs.Idle, 0.1f);
     }
 
     public void PlayWalk()
     {
-        Animator.Play(LinkAnimationHashs.Walk);
+        Animator.CrossFade(LinkAnimationHashs.Walk, 0.3f);
     }
 
     public void PlayRun()
     {
-        Animator.Play(LinkAnimationHashs.Run);
+        Animator.CrossFade(LinkAnimationHashs.Run, 0.1f);
     }
 
     public void PlayRunBackwards()
@@ -38,7 +38,7 @@ public class LinkAnimationController : MonoBehaviour
 
     public void PlayJump()
     {
-        Animator.Play(LinkAnimationHashs.Jump);
+        Animator.CrossFade(LinkAnimationHashs.Jump, 0.3f);
     }
 
     public void PlayBlock()
@@ -48,31 +48,31 @@ public class LinkAnimationController : MonoBehaviour
 
     public void PlayHurt()
     {
-        Animator.Play(LinkAnimationHashs.Hurt);
+        Animator.CrossFade(LinkAnimationHashs.Hurt, 0.3f);
     }
 
     public void PlayDeath()
     {
-        Animator.Play(LinkAnimationHashs.Death);
+        Animator.CrossFade(LinkAnimationHashs.Death, 0.3f);
     }
 
     public void PlayAttack1()
     {
-        Animator.Play(LinkAnimationHashs.Attack1);
+        Animator.CrossFade(LinkAnimationHashs.Attack1, 0.3f);
     } 
 
     public void PlayAttack2()
     {
-        Animator.Play(LinkAnimationHashs.Attack2);
+        Animator.CrossFade(LinkAnimationHashs.Attack2, 0.3f);
     }
 
     public void PlayAttack3()
     {
-        Animator.Play(LinkAnimationHashs.Attack3);
+        Animator.CrossFade(LinkAnimationHashs.Attack3, 0.3f);
     }
 
     public void PlayAttack4()
     {
-        Animator.Play(LinkAnimationHashs.Attack4);
+        Animator.CrossFade(LinkAnimationHashs.Attack4, 0.3f);
     }
 }

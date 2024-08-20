@@ -14,7 +14,7 @@ public class Attack2State : CombatSubState
     public override void Enter()
     {
         Debug.Log("Atk 2");
-
+        linkController.PhysicsProcessor.StopMovement();
         linkController.AnimationController.PlayAttack2();
         base.Enter();
     }

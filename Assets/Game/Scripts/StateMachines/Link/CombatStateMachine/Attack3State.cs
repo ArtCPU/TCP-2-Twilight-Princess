@@ -14,7 +14,7 @@ public class Attack3State : CombatSubState
     public override void Enter()
     {
         Debug.Log("Atk 3");
-
+        linkController.PhysicsProcessor.StopMovement();
         linkController.AnimationController.PlayAttack3();
         base.Enter();
     }
@@ -31,10 +31,10 @@ public class Attack3State : CombatSubState
 
     public override void Update()
     {
-        if (combatStateMachine.AnimationPastFrame(LinkAnimationHashs.Attack3, linkController.CombatData))
-        {
-            combatStateMachine.TryPerformAttack4();
-        }
+        //if (combatStateMachine.AnimationPastFrame(LinkAnimationHashs.Attack3, linkController.CombatData))
+        //{
+        //    combatStateMachine.TryPerformAttack4();
+        //}
 
         base.Update();
     }

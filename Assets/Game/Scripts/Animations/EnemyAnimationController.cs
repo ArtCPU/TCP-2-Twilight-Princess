@@ -19,7 +19,7 @@ public class EnemyAnimationController : MonoBehaviour
     public void PlayAttack()
     {
         Animator.ForceStateNormalizedTime(0);
-        Animator.CrossFade(EnemyAnimationHashs.Attack, 0f);
+        Animator.Play(EnemyAnimationHashs.Attack);
     }
 
     public void PlayInitialized()

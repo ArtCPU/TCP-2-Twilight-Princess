@@ -14,7 +14,7 @@ public class Attack4State : CombatSubState
     public override void Enter()
     {
         Debug.Log("Atk 4");
-
+        linkController.PhysicsProcessor.StopMovement();
         linkController.AnimationController.PlayAttack4();
         base.Enter();
     }

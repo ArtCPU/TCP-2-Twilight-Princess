@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Link Movement Data
   m_EditorClassIdentifier: 
   <WalkingSpeed>k__BackingField: 2
-  <RunningSpeed>k__BackingField: 5
+  <RunningSpeed>k__BackingField: 8
   <TurnSmoothTime>k__BackingField: 1
   <MaxJumpHeight>k__BackingField: 0.4
   <MaxJumpTime>k__BackingField: 1.5
