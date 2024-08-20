@@ -730,7 +730,13 @@ PlayerSettings:
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
   cloudServicesEnabled:
+    Build: 0
+    Game Performance: 0
+    Legacy Analytics: 0
+    Purchasing: 0
+    UDP: 0
     UNet: 1
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -750,11 +756,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 3fe4839a-1889-4928-8147-9757d9d40747
+  cloudProjectId: 5ee07e22-7677-40a9-8b72-1a67cd290e66
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: TCP 2 Twilight Princess
-  organizationId: artcpu
+  organizationId: unity_a_bt2z5wc77iyq
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
